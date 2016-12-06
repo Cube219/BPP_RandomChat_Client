@@ -1,8 +1,28 @@
 #include<iostream>
 #include<WinSock2.h>
 #include<WS2tcpip.h>
+#include<thread>
+#include<string.h>
 
 using namespace std;
+
+enum State {NotConnected, Connected, Searching, Join};
+State state = State::NotConnected;
+
+void Receive(SOCKET s)
+{
+	char buf[256];
+	while(1) {
+		int size = recv(s, buf, sizeof(buf), 0);
+
+		if(size <= 0) {
+			cout << "Connection End" << endl;
+			break;
+		}
+		cout << "Received Size :" << size << endl;
+		cout << "Received Data : " << buf << endl;
+	}
+}
 
 int main(void)
 {
@@ -32,16 +52,20 @@ int main(void)
 		return -1;
 	}
 
-	char buf[256];
-	while(1) {
-		int size = recv(s, buf, sizeof(buf), 0);
+	state = State::Connected;
 
-		if(size <= 0) {
-			cout << "Connection End" << endl;
-			break;
+	thread* t = new thread(Receive, s);
+
+	char d[101];
+	while(1) {
+		cin >> d;
+		if(d[0] == '!') {
+			if(strcmp(d, "!search") == 0) {
+			} else if(strcmp(d, "!quit") == 0) {
+			}
+		} else {
+
 		}
-		cout<<"Received Size :" <<size<<endl;
-		cout << "Received Data : " << buf << endl;
 	}
 
 	Sleep(3000);
