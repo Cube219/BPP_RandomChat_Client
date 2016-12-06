@@ -1,7 +1,7 @@
 ﻿#include"Protocol.h"
 
 // 1. 연결
-std::string Protocol_Connect::ToJson(Protocol_Connect protocol)
+std::string Protocol_Connect::ToJson(const Protocol_Connect& protocol)
 {
 	json j;
 	j["protocolType"] = "Protocol_Connect";
@@ -11,9 +11,9 @@ std::string Protocol_Connect::ToJson(Protocol_Connect protocol)
 	return j.dump();
 }
 
-Protocol_Connect Protocol_Connect::ToProtocol(std::string data)
+Protocol_Connect Protocol_Connect::ToProtocol(const std::string& data)
 {
-	Protocol_Connect p;
+	Protocol_Connect p = {};
 
 	json j = json::parse(data);
 	if(j["protocolType"] != "Protocol_Connect") {
@@ -23,7 +23,7 @@ Protocol_Connect Protocol_Connect::ToProtocol(std::string data)
 	return p;
 }
 // 2. 연결 결과
-std::string Protocol_ConnectResult::ToJson(Protocol_ConnectResult protocol)
+std::string Protocol_ConnectResult::ToJson(const Protocol_ConnectResult& protocol)
 {
 	json j;
 	j["protocolType"] = "Protocol_ConnectResult";
@@ -34,9 +34,9 @@ std::string Protocol_ConnectResult::ToJson(Protocol_ConnectResult protocol)
 	return j.dump();
 }
 
-Protocol_ConnectResult Protocol_ConnectResult::ToProtocol(std::string data)
+Protocol_ConnectResult Protocol_ConnectResult::ToProtocol(const std::string& data)
 {
-	Protocol_ConnectResult p;
+	Protocol_ConnectResult p = {};
 
 	json j = json::parse(data);
 	if(j["protocolType"] != "Protocol_ConnectResult") {
@@ -51,7 +51,7 @@ Protocol_ConnectResult Protocol_ConnectResult::ToProtocol(std::string data)
 }
 
 // 3. 유저를 찾음
-std::string Protocol_FindUser::ToJson(Protocol_FindUser protocol)
+std::string Protocol_FindUser::ToJson(const Protocol_FindUser& protocol)
 {
 	json j;
 	j["protocolType"] = "Protocol_FindUser";
@@ -61,9 +61,9 @@ std::string Protocol_FindUser::ToJson(Protocol_FindUser protocol)
 	return j.dump();
 }
 
-Protocol_FindUser Protocol_FindUser::ToProtocol(std::string data)
+Protocol_FindUser Protocol_FindUser::ToProtocol(const std::string& data)
 {
-	Protocol_FindUser p;
+	Protocol_FindUser p = {};
 
 	json j = json::parse(data);
 	if(j["protocolType"] != "Protocol_FindUser") {
@@ -75,7 +75,7 @@ Protocol_FindUser Protocol_FindUser::ToProtocol(std::string data)
 	return p;
 }
 // 4. 유저를 찾은 결과
-std::string Protocol_FindUserResult::ToJson(Protocol_FindUserResult protocol)
+std::string Protocol_FindUserResult::ToJson(const Protocol_FindUserResult& protocol)
 {
 	json j;
 	j["protocolType"] = "Protocol_FindUserResult";
@@ -86,9 +86,9 @@ std::string Protocol_FindUserResult::ToJson(Protocol_FindUserResult protocol)
 	return j.dump();
 }
 
-Protocol_FindUserResult Protocol_FindUserResult::ToProtocol(std::string data)
+Protocol_FindUserResult Protocol_FindUserResult::ToProtocol(const std::string& data)
 {
-	Protocol_FindUserResult p;
+	Protocol_FindUserResult p = {};
 
 	json j = json::parse(data);
 	if(j["protocolType"] != "Protocol_FindUserResult") {
@@ -104,7 +104,7 @@ Protocol_FindUserResult Protocol_FindUserResult::ToProtocol(std::string data)
 
 // 5. 메시지를 보냄
 
-std::string Protocol_SendMessage::ToJson(Protocol_SendMessage protocol)
+std::string Protocol_SendMessage::ToJson(const Protocol_SendMessage& protocol)
 {
 	json j;
 	j["protocolType"] = "Protocol_SendMessage";
@@ -115,9 +115,9 @@ std::string Protocol_SendMessage::ToJson(Protocol_SendMessage protocol)
 	return j.dump();
 }
 
-Protocol_SendMessage Protocol_SendMessage::ToProtocol(std::string data)
+Protocol_SendMessage Protocol_SendMessage::ToProtocol(const std::string& data)
 {
-	Protocol_SendMessage p;
+	Protocol_SendMessage p = {};
 
 	json j = json::parse(data);
 	if(j["protocolType"] != "Protocol_SendMessage") {
@@ -131,7 +131,7 @@ Protocol_SendMessage Protocol_SendMessage::ToProtocol(std::string data)
 	return p;
 }
 // 6. 메시지를 보낸 결과
-std::string Protocol_SendMessageResult::ToJson(Protocol_SendMessageResult protocol)
+std::string Protocol_SendMessageResult::ToJson(const Protocol_SendMessageResult& protocol)
 {
 	json j;
 	j["protocolType"] = "Protocol_SendMessageResult";
@@ -141,9 +141,9 @@ std::string Protocol_SendMessageResult::ToJson(Protocol_SendMessageResult protoc
 	return j.dump();
 }
 
-Protocol_SendMessageResult Protocol_SendMessageResult::ToProtocol(std::string data)
+Protocol_SendMessageResult Protocol_SendMessageResult::ToProtocol(const std::string& data)
 {
-	Protocol_SendMessageResult p;
+	Protocol_SendMessageResult p = {};
 
 	json j = json::parse(data);
 	if(j["protocolType"] != "Protocol_SendMessageResult") {
@@ -157,7 +157,7 @@ Protocol_SendMessageResult Protocol_SendMessageResult::ToProtocol(std::string da
 }
 
 // 7. 메시지를 받음
-std::string Protocol_GetMessage::ToJson(Protocol_GetMessage protocol)
+std::string Protocol_GetMessage::ToJson(const Protocol_GetMessage& protocol)
 {
 	json j;
 	j["protocolType"] = "Protocol_GetMessage";
@@ -168,9 +168,9 @@ std::string Protocol_GetMessage::ToJson(Protocol_GetMessage protocol)
 	return j.dump();
 }
 
-Protocol_GetMessage Protocol_GetMessage::ToProtocol(std::string data)
+Protocol_GetMessage Protocol_GetMessage::ToProtocol(const std::string& data)
 {
-	Protocol_GetMessage p;
+	Protocol_GetMessage p = {};
 
 	json j = json::parse(data);
 	if(j["protocolType"] != "Protocol_GetMessage") {
@@ -185,7 +185,7 @@ Protocol_GetMessage Protocol_GetMessage::ToProtocol(std::string data)
 }
 
 // 8. 방을 나감
-std::string Protocol_LeaveRoom::ToJson(Protocol_LeaveRoom protocol)
+std::string Protocol_LeaveRoom::ToJson(const Protocol_LeaveRoom& protocol)
 {
 	json j;
 	j["protocolType"] = "Protocol_LeaveRoom";
@@ -195,9 +195,9 @@ std::string Protocol_LeaveRoom::ToJson(Protocol_LeaveRoom protocol)
 	return j.dump();
 }
 
-Protocol_LeaveRoom Protocol_LeaveRoom::ToProtocol(std::string data)
+Protocol_LeaveRoom Protocol_LeaveRoom::ToProtocol(const std::string& data)
 {
-	Protocol_LeaveRoom p;
+	Protocol_LeaveRoom p = {};
 
 	json j = json::parse(data);
 	if(j["protocolType"] != "Protocol_LeaveRoom") {
@@ -209,7 +209,7 @@ Protocol_LeaveRoom Protocol_LeaveRoom::ToProtocol(std::string data)
 	return p;
 }
 // 9. 상대방이 방을 나감
-std::string Protocol_UserLeaved::ToJson(Protocol_UserLeaved protocol)
+std::string Protocol_UserLeaved::ToJson(const Protocol_UserLeaved& protocol)
 {
 	json j;
 	j["protocolType"] = "Protocol_UserLeaved";
@@ -219,9 +219,9 @@ std::string Protocol_UserLeaved::ToJson(Protocol_UserLeaved protocol)
 	return j.dump();
 }
 
-Protocol_UserLeaved ToProtocol(std::string data)
+Protocol_UserLeaved Protocol_UserLeaved::ToProtocol(const std::string& data)
 {
-	Protocol_UserLeaved p;
+	Protocol_UserLeaved p = {};
 
 	json j = json::parse(data);
 	if(j["protocolType"] != "Protocol_UserLeaved") {

@@ -21,6 +21,13 @@ string session;
 
 thread* t;
 
+bool Init();
+void Send(const string& data);
+void Receive();
+void ProcessProtocol(const char* data);
+void SearchPeople();
+void QuitRoom();
+
 // 초기화
 bool Init()
 {
