@@ -14,6 +14,8 @@ SOCKET s;
 SOCKADDR_IN6 clientAddr;
 SOCKADDR_IN aa;
 
+thread* t;
+
 // 초기화
 bool Init()
 {
@@ -40,7 +42,7 @@ bool Init()
 
 	state = State::Connected;
 
-	thread* t = new thread(Receive);
+	t = new thread(Receive);
 
 	return true;
 }
@@ -90,12 +92,19 @@ int main(void)
 		cin >> d;
 		if(d[0] == '!') {
 			if(strcmp(d, "!search") == 0) {
-			} else if(strcmp(d, "!quit") == 0) {
+				SearchPeople();
+			} else if(strcmp(d, "!quitroom") == 0) {
+				QuitRoom();
+			} else if(strcmp(d, "!quitprogram") == 0) {
+				break;
 			}
 		} else {
-
+			if(state == State::Join) {
+			}
 		}
 	}
+
+	delete t;
 
 	Sleep(3000);
 
