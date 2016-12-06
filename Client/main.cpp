@@ -1,4 +1,4 @@
-#include<iostream>
+﻿#include<iostream>
 #include<WinSock2.h>
 #include<WS2tcpip.h>
 #include<thread>
@@ -9,6 +9,7 @@ using namespace std;
 enum State {NotConnected, Connected, Searching, Join};
 State state = State::NotConnected;
 
+// 서버로부터 오는 데이터를 받아오는 함수
 void Receive(SOCKET s)
 {
 	char buf[256];
@@ -22,6 +23,24 @@ void Receive(SOCKET s)
 		cout << "Received Size :" << size << endl;
 		cout << "Received Data : " << buf << endl;
 	}
+}
+
+// 사람을 찾는 함수
+void SearchPeople()
+{
+	// 연결중 상태 (찾는 중도 아니고 방에 들어간 상태도 아닌)가 아니면 그냥 종료
+	if(state != State::Connected)
+		return;
+
+	state = State::Searching;
+}
+
+// 방에 나가는 함수
+void QuitRoom()
+{
+	// 방에 들어간 상태가 아니면 그냥 종료
+	if(state != State::Join)
+		return;
 }
 
 int main(void)
