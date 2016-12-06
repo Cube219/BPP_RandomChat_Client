@@ -3,16 +3,20 @@
 #include<WS2tcpip.h>
 #include<thread>
 #include<string.h>
+#include<string>
+#include"json.hpp"
 
 using namespace std;
-
-enum State {NotConnected, Connected, Searching, Join};
-State state = State::NotConnected;
 
 WSAData wsaData;
 SOCKET s;
 SOCKADDR_IN6 clientAddr;
 SOCKADDR_IN aa;
+
+enum State { NotConnected, Connected, Searching, Join };
+State state = State::NotConnected;
+
+string session;
 
 thread* t;
 
@@ -54,13 +58,22 @@ void Receive()
 	while(1) {
 		int size = recv(s, buf, sizeof(buf), 0);
 
-		if(size <= 0) {
+		if(size <= 0) { // 연결이 종료됨
 			cout << "Connection End" << endl;
 			break;
 		}
 		cout << "Received Size :" << size << endl;
 		cout << "Received Data : " << buf << endl;
+
+		// 해당 프로토콜을 분석
+		ProcessProtocol(buf);
 	}
+}
+
+// 프로토콜 분석 함수
+void ProcessProtocol(const char* data)
+{
+
 }
 
 // 사람을 찾는 함수
@@ -87,15 +100,15 @@ int main(void)
 		return -1;
 	}
 
-	char d[101];
+	string d;
 	while(1) {
 		cin >> d;
 		if(d[0] == '!') {
-			if(strcmp(d, "!search") == 0) {
+			if(d == "!search") {
 				SearchPeople();
-			} else if(strcmp(d, "!quitroom") == 0) {
+			} else if(d == "!quitroom") {
 				QuitRoom();
-			} else if(strcmp(d, "!quitprogram") == 0) {
+			} else if(d == "!quitprogram") {
 				break;
 			}
 		} else {
