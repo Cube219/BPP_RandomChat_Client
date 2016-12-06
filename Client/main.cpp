@@ -5,6 +5,7 @@
 #include<string.h>
 #include<string>
 #include"json.hpp"
+#include"Protocol.h"
 
 using namespace std;
 
@@ -51,6 +52,12 @@ bool Init()
 	return true;
 }
 
+// 서버로부터 보내는 함수
+void Send(const string& data)
+{
+	send(s, data.c_str(), data.size() + 1, 0);
+}
+
 // 서버로부터 오는 데이터를 받아오는 함수
 void Receive()
 {
@@ -73,7 +80,24 @@ void Receive()
 // 프로토콜 분석 함수
 void ProcessProtocol(const char* data)
 {
+	json j = json::parse(data);
 
+	string type = j["protocolType"];
+
+	if(type == "Protocol_ConnectResult") { // 연결 결과
+		Protocol_ConnectResult p = Protocol_ConnectResult::ToProtocol(data);
+
+		// 세션값 얻어옴
+		session = p.session;
+	} else if(type == "Protocol_FindUserResult") { // 유저 찾기 결과
+		Protocol_FindUserResult p = Protocol_FindUserResult::ToProtocol(data);
+	} else if(type == "Protocol_SendMessageResult") { // 메시지 보내기 결과
+		Protocol_SendMessageResult p = Protocol_SendMessageResult::ToProtocol(data);
+	} else if(type == "Protocol_GetMessage") { // 메시지 받음
+		Protocol_GetMessage p = Protocol_GetMessage::ToProtocol(data);
+	} else if(type == "Protocol_UserLeaved") { // 유저가 나감
+		Protocol_UserLeaved p = Protocol_UserLeaved::ToProtocol(data);
+	}
 }
 
 // 사람을 찾는 함수
@@ -84,6 +108,11 @@ void SearchPeople()
 		return;
 
 	state = State::Searching;
+
+	// 유저를 찾는다고 서버에게 보냄
+	Protocol_FindUser p;
+	p.session = session;
+	Send(Protocol_FindUser::ToJson(p));
 }
 
 // 방에 나가는 함수
@@ -92,6 +121,11 @@ void QuitRoom()
 	// 방에 들어간 상태가 아니면 그냥 종료
 	if(state != State::Join)
 		return;
+
+	// 방에 나간다고 서버에게 보냄
+	Protocol_LeaveRoom p;
+	p.session = session;
+	Send(Protocol_LeaveRoom::ToJson(p));
 }
 
 int main(void)
@@ -100,19 +134,23 @@ int main(void)
 		return -1;
 	}
 
-	string d;
+	wstring d;
 	while(1) {
-		cin >> d;
-		if(d[0] == '!') {
-			if(d == "!search") {
+		wcin >> d;
+		if(d[0] == L'!') {
+			if(d == L"!search") {
 				SearchPeople();
-			} else if(d == "!quitroom") {
+			} else if(d == L"!quitroom") {
 				QuitRoom();
-			} else if(d == "!quitprogram") {
+			} else if(d == L"!quitprogram") {
 				break;
 			}
 		} else {
 			if(state == State::Join) {
+				Protocol_SendMessage p;
+				p.message = d;
+				p.session = session;
+				Send(Protocol_SendMessage::ToJson(p));
 			}
 		}
 	}
