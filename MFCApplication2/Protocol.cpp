@@ -1,4 +1,5 @@
-﻿#include"Protocol.h"
+﻿#include"stdafx.h"
+#include"Protocol.h"
 
 // 1. 연결
 std::string Protocol_Connect::ToJson(const Protocol_Connect& protocol)
